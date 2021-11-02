@@ -2,6 +2,11 @@ package it.unibo.oop.lab.exception1;
 
 public class NotEnoughBatteryException extends Exception {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+
     public NotEnoughBatteryException(double battery) {
 	this("Battery was " + battery);
     }
