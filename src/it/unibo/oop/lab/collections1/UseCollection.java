@@ -129,6 +129,6 @@ public final class UseCollection {
 	    population += a;
 	}
 
-	System.out.println(population);
+	System.out.println("Population of The World:" + population);
     }
 }
