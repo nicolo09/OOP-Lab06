@@ -80,7 +80,6 @@ public class Robot {
      */
     private void moveToPosition(final int newX, final int newY)
 	    throws PositionOutOfBoundException, NotEnoughBatteryException {
-	boolean returnValue = true;
 	if (this.isBatteryEnoughToMove()) {
 	    this.environment.move(newX, newY);
 	    this.consumeBatteryForMovement();
