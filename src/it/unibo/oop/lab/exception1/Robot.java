@@ -17,16 +17,14 @@ public class Robot {
 
     /**
      * 
-     * @param robotName
-     *            name of the robot
-     * @param batteryLevel
-     *            initial battery level
+     * @param robotName    name of the robot
+     * @param batteryLevel initial battery level
      * @throws Exception
      */
     public Robot(final String robotName, final double batteryLevel) {
-        this.batteryLevel = batteryLevel;
-        this.environment = new RobotEnvironment(new RobotPosition(0, 0));
-        this.robotName = robotName;
+	this.batteryLevel = batteryLevel;
+	this.environment = new RobotEnvironment(new RobotPosition(0, 0));
+	this.robotName = robotName;
     }
 
     /**
@@ -34,8 +32,8 @@ public class Robot {
      * 
      * @return If the Up movement has been performed
      */
-    public boolean moveUp() {
-        return moveToPosition(environment.getCurrPosX(), this.environment.getCurrPosY() + Robot.MOVEMENT_DELTA);
+    public boolean moveUp() throws PositionOutOfBoundException {
+	return moveToPosition(environment.getCurrPosX(), this.environment.getCurrPosY() + Robot.MOVEMENT_DELTA);
     }
 
     /**
@@ -43,8 +41,8 @@ public class Robot {
      * 
      * @return If the Down movement has been performed
      */
-    public boolean moveDown() {
-        return this.moveToPosition(this.environment.getCurrPosX(), environment.getCurrPosY() - Robot.MOVEMENT_DELTA);
+    public boolean moveDown() throws PositionOutOfBoundException {
+	return this.moveToPosition(this.environment.getCurrPosX(), environment.getCurrPosY() - Robot.MOVEMENT_DELTA);
     }
 
     /**
@@ -52,9 +50,9 @@ public class Robot {
      * 
      * @return A boolean indicating if the Left movement has been performed
      */
-    public boolean moveLeft() {
-        return this.moveToPosition(this.environment.getCurrPosX() - Robot.MOVEMENT_DELTA,
-                this.environment.getCurrPosY());
+    public boolean moveLeft() throws PositionOutOfBoundException {
+	return this.moveToPosition(this.environment.getCurrPosX() - Robot.MOVEMENT_DELTA,
+		this.environment.getCurrPosY());
     }
 
     /**
@@ -62,65 +60,59 @@ public class Robot {
      * 
      * @return A boolean indicating if the Right movement has been performed
      */
-    public boolean moveRight() {
-        return this.moveToPosition(this.environment.getCurrPosX() + Robot.MOVEMENT_DELTA,
-                this.environment.getCurrPosY());
+    public boolean moveRight() throws PositionOutOfBoundException {
+	return this.moveToPosition(this.environment.getCurrPosX() + Robot.MOVEMENT_DELTA,
+		this.environment.getCurrPosY());
     }
 
     /**
      * Fully recharge the robot.
      */
     public void recharge() {
-        this.batteryLevel = BATTERY_FULL;
+	this.batteryLevel = BATTERY_FULL;
     }
 
     /**
      * move a robot to the specified position.
      * 
-     * @param newX
-     *            the new X position to move the robot to
-     * @param newY
-     *            the new Y position to move the robot to
+     * @param newX the new X position to move the robot to
+     * @param newY the new Y position to move the robot to
      * @return true if robot gets moved, false otherwise
      */
-    private boolean moveToPosition(final int newX, final int newY) {
-        boolean returnValue = true;
-        if (this.isBatteryEnoughToMove()) {
-            if (this.environment.move(newX, newY)) {
-                this.consumeBatteryForMovement();
-                this.log("Moved to position(" + newX + "," + newY + ").");
-            } else {
-                this.log("Can not move to (" + newX + "," + newY
-                        + ") the robot is touching at least one world boundary");
-                returnValue = false;
-            }
-        } else {
-            this.log("Can not move to position(" + newX + "," + newY + "). Not enough battery.");
-            returnValue = false;
-        }
-        return returnValue;
+    private boolean moveToPosition(final int newX, final int newY) throws PositionOutOfBoundException {
+	boolean returnValue = true;
+	if (this.isBatteryEnoughToMove()) {
+	    this.environment.move(newX, newY);
+	    this.consumeBatteryForMovement();
+	    this.log("Moved to position(" + newX + "," + newY + ").");
+	} else
+
+	{
+	    this.log("Can not move to position(" + newX + "," + newY + "). Not enough battery.");
+	    returnValue = false;
+	}
+	return returnValue;
     }
 
     /**
-     * Consume the amount of energy required to move the robot substracting it
-     * from the current battery level.
+     * Consume the amount of energy required to move the robot substracting it from
+     * the current battery level.
      */
     protected void consumeBatteryForMovement() {
-        this.consumeBattery(Robot.MOVEMENT_DELTA_CONSUMPTION);
+	this.consumeBattery(Robot.MOVEMENT_DELTA_CONSUMPTION);
     }
 
     /**
      * Consume the amount of energy provided in input from the battery.
      * 
-     * @param amount
-     *            the amount of battery energy to consume
+     * @param amount the amount of battery energy to consume
      */
     protected void consumeBattery(final double amount) {
-        if (batteryLevel >= amount) {
-            this.batteryLevel -= amount;
-        } else {
-            this.batteryLevel = BATTERY_EMPTY;
-        }
+	if (batteryLevel >= amount) {
+	    this.batteryLevel -= amount;
+	} else {
+	    this.batteryLevel = BATTERY_EMPTY;
+	}
     }
 
     /**
@@ -128,7 +120,7 @@ public class Robot {
      * @return A boolean indicating if the robot has enough energy to move
      */
     protected boolean isBatteryEnoughToMove() {
-        return this.getBatteryLevel() >= Robot.MOVEMENT_DELTA_CONSUMPTION;
+	return this.getBatteryLevel() >= Robot.MOVEMENT_DELTA_CONSUMPTION;
     }
 
     /**
@@ -136,7 +128,7 @@ public class Robot {
      * @return The robot's current battery level
      */
     public double getBatteryLevel() {
-        return (double) Math.round(this.batteryLevel * 100) / 100;
+	return (double) Math.round(this.batteryLevel * 100) / 100;
     }
 
     /**
@@ -144,16 +136,15 @@ public class Robot {
      * @return The robot environment
      */
     public RobotEnvironment getEnvironment() {
-        return this.environment;
+	return this.environment;
     }
 
     /**
      * Log to stdout the string provided in input.
      * 
-     * @param msg
-     *            the msg to print
+     * @param msg the msg to print
      */
     protected void log(final String msg) {
-        System.out.println("[" + this.robotName + ":]" + msg);
+	System.out.println("[" + this.robotName + ":]" + msg);
     }
 }
