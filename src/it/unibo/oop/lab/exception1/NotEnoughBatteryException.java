@@ -2,8 +2,8 @@ package it.unibo.oop.lab.exception1;
 
 public class NotEnoughBatteryException extends Exception {
 
-    public NotEnoughBatteryException() {
-	// TODO Auto-generated constructor stub
+    public NotEnoughBatteryException(double battery) {
+	this("Battery was " + battery);
     }
 
     public NotEnoughBatteryException(String message) {

@@ -86,7 +86,7 @@ public class Robot {
 	    this.consumeBatteryForMovement();
 	    this.log("Moved to position(" + newX + "," + newY + ").");
 	} else {
-	    throw new NotEnoughBatteryException();
+	    throw new NotEnoughBatteryException(this.getBatteryLevel());
 	}
     }
 
