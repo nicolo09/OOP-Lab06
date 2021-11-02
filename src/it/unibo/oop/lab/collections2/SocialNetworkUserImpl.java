@@ -1,6 +1,8 @@
 package it.unibo.oop.lab.collections2;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -13,8 +15,7 @@ import java.util.List;
  * 1) complete the definition of the methods by following the suggestions
  * included in the comments below.
  * 
- * @param <U>
- *            Specific user type
+ * @param <U> Specific user type
  */
 public class SocialNetworkUserImpl<U extends User> extends UserImpl implements SocialNetworkUser<U> {
 
@@ -24,11 +25,13 @@ public class SocialNetworkUserImpl<U extends User> extends UserImpl implements S
      * 
      * Define any necessary field
      * 
-     * In order to save the people followed by a user organized in groups, adopt
-     * a generic-type Map:
+     * In order to save the people followed by a user organized in groups, adopt a
+     * generic-type Map:
      * 
      * think of what type of keys and values would best suit the requirements
      */
+
+    HashMap<String, Collection<U>> follow = new HashMap<>();
 
     /*
      * [CONSTRUCTORS]
@@ -44,18 +47,14 @@ public class SocialNetworkUserImpl<U extends User> extends UserImpl implements S
     /**
      * Builds a new {@link SocialNetworkUserImpl}.
      * 
-     * @param name
-     *            the user firstname
-     * @param surname
-     *            the user lastname
-     * @param userAge
-     *            user's age
-     * @param user
-     *            alias of the user, i.e. the way a user is identified on an
-     *            application
+     * @param name    the user firstname
+     * @param surname the user lastname
+     * @param userAge user's age
+     * @param user    alias of the user, i.e. the way a user is identified on an
+     *                application
      */
     public SocialNetworkUserImpl(final String name, final String surname, final String user, final int userAge) {
-        super(name, surname, user, userAge);
+	super(name, surname, user, userAge);
     }
 
     /*
@@ -66,17 +65,27 @@ public class SocialNetworkUserImpl<U extends User> extends UserImpl implements S
 
     @Override
     public boolean addFollowedUser(final String circle, final U user) {
-        return false;
+	if (follow.containsKey(circle)) {
+	    return follow.get(circle).add(user);
+	} else {
+	    return false;
+	}
     }
 
     @Override
     public Collection<U> getFollowedUsersInGroup(final String groupName) {
-        return null;
+	return follow.get(groupName);
     }
 
     @Override
     public List<U> getFollowedUsers() {
-        return null;
+	List<U> result = new ArrayList<U>();
+
+	for (Collection<U> coll : follow.values()) {
+	    result.addAll(coll);
+	}
+
+	return result;
     }
 
 }
