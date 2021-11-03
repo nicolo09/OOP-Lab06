@@ -103,8 +103,10 @@ public class StrictBankAccount implements BankAccount {
         }
     }
 
-    private boolean checkUser(final int id) {
-        return this.usrID == id;
+    private void checkUser(final int id) throws WrongAccountHolderException {
+        if(this.usrID != id) {
+            throw new WrongAccountHolderException("ID mismatch");
+        }
     }
 
     private boolean isWithdrawAllowed(final double amount) {
