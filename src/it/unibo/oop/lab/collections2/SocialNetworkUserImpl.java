@@ -76,7 +76,7 @@ public class SocialNetworkUserImpl<U extends User> extends UserImpl implements S
 	if (follow.get(groupName) == null) {
 	    return new ArrayList<U>();
 	} else {
-	    return follow.get(groupName);
+	    return new ArrayList<U>(follow.get(groupName));
 	}
     }
 
