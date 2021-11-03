@@ -65,16 +65,19 @@ public class SocialNetworkUserImpl<U extends User> extends UserImpl implements S
 
     @Override
     public boolean addFollowedUser(final String circle, final U user) {
-	if (follow.containsKey(circle)) {
-	    return follow.get(circle).add(user);
-	} else {
-	    return false;
+	if (!follow.containsKey(circle)) {
+	    follow.put(circle, new ArrayList<U>());
 	}
+	return follow.get(circle).add(user);
     }
 
     @Override
     public Collection<U> getFollowedUsersInGroup(final String groupName) {
-	return follow.get(groupName);
+	if (follow.get(groupName) == null) {
+	    return new ArrayList<U>();
+	} else {
+	    return follow.get(groupName);
+	}
     }
 
     @Override
