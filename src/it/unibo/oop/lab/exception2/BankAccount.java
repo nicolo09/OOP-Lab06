@@ -42,7 +42,7 @@ public interface BankAccount {
      * @param usrID
      *            id of the user requesting this opera
      * @param amount
-     *            amount to be withdrawn via AT
+     *            amount to be withdrawn via ATM
      * @throws TransactionsOverQuotaException 
      * @throws NotEnoughFoundsException 
      * @throws WrongAccountHolderException 
