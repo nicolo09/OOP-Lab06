@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
 
@@ -45,14 +46,14 @@ public class GraphImpl<N> implements Graph<N> {
     }
 
     /**
-     * Execute BFS algorithm returning the array of fathers
+     * Execute BFS algorithm returning a map in which each node(key) is associated
+     * to his father node(value)
      * 
-     * @param source
-     * @param target
-     * @return
+     * @param source the node to start from
+     * @return the father association map
      */
-    private HashMap<N, N> bfs(N source, N target) {
-	HashMap<N, N> fathers = new HashMap<>();
+    private Map<N, N> bfs(final N source) {
+	Map<N, N> fathers = new HashMap<>();
 	// Create queue
 	Queue<N> q = new ArrayDeque<N>();
 	// Add source node as first in queue, himself as father
@@ -73,9 +74,16 @@ public class GraphImpl<N> implements Graph<N> {
 	return fathers;
     }
 
+    /**
+     * Find a path in the graph from source node to target node
+     * 
+     * @param source
+     * @param target
+     * @return a list representing the path from source to target
+     */
     @Override
     public List<N> getPath(N source, N target) {
-	HashMap<N, N> fathersMap = bfs(source, target);
+	Map<N, N> fathersMap = bfs(source);
 	List<N> result = new ArrayList<>();
 	N current = target;
 	// Rebuild fathers relationship from target to source based on BFS fathers tree
